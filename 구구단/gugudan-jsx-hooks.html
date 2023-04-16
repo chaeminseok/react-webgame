@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>구구단</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!--<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>-->
+    <!--<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>-->
+    <!-- //jsx 사용을 위해서 -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const GuGuDan = () => {
+        const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
+        const [second, setSecond] = React.useState(
+          Math.ceil(Math.random() * 9)
+        );
+        const [value, setValue] = React.useState("");
+        const [result, setResult] = React.useState("");
+        const inputRef = React.useRef();
+        const onChangeInput = (e) => {
+          setValue(e.target.value);
+        };
+        const onsubmitForm = (e) => {
+          e.preventDefault();
+          inputRef.current.focus();
+          if (parseInt(value) === first * second) {
+            setResult(`정답: ${first} x ${second}= ${value}`);
+            setFirst(Math.ceil(Math.random() * 9));
+            setSecond(Math.ceil(Math.random() * 9));
+            setValue("");
+          } else {
+            setResult("땡");
+            setValue("");
+          }
+        };
+        return (
+          <React.Fragment>
+            <div>
+              {first} 곱하기 {second}
+            </div>
+            <form onSubmit={onsubmitForm}>
+              <input
+                ref={inputRef}
+                onChange={onChangeInput}
+                type="number"
+                value={value}
+                placeholder="정답을 입력하세요!"
+                required
+              />
+              <button type="submit"> 입력!</button>
+            </form>
+            <div>{result}</div>
+          </React.Fragment>
+        );
+      };
+    </script>
+    <script type="text/babel">
+      // ReactDOM.render(<LikeButton />, document.querySelector("#root")); 17버전 코드
+      ReactDOM.createRoot(document.querySelector("#root")).render(
+        <div>
+          <GuGuDan />
+        </div>
+      );
+    </script>
+  </body>
+</html>
